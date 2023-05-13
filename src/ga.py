@@ -1,3 +1,4 @@
+import time
 import itertools
 import random
 
@@ -133,6 +134,7 @@ def run_petrinas_ga(
             population = toolbox.population(n=n_individuals)
 
             # Run algorithm
+            start_time = time.time()
             population, logbook = algorithms.eaSimple(
                 population=population,
                 toolbox=toolbox,
@@ -143,6 +145,7 @@ def run_petrinas_ga(
                 ngen=n_generations,
                 verbose=False,
             )
+            end_time = time.time()
 
             # Compute best fitness in iteration and update statistics
             best_fitness_iteration = toolbox.evaluate(halloffame[0])[0]
@@ -153,6 +156,7 @@ def run_petrinas_ga(
             run_output["logbook"] = logbook
             run_output["halloffame"] = halloffame
             run_output["best_fitness"] = best_fitness_iteration
+            run_output["running_time"] = end_time - start_time
             outputs.append(run_output)
 
         print("Best fitness:", best_fitness)
