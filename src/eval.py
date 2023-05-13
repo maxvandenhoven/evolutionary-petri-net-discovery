@@ -28,7 +28,7 @@ def evaluate_individual(
     for trace in dataset:
         counter += evaluate_trace(individual_matrix, trace)
 
-    return weight*counter + (1-weight)*np.count_nonzero(individual_matrix),
+    return weight*counter - (1-weight)*np.count_nonzero(individual_matrix),
 
 
 def evaluate_trace(individual_matrix: np.array, trace: list[int]) -> int:
