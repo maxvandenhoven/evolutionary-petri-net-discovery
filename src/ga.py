@@ -22,6 +22,8 @@ def run_petrinas_ga(
     n_individuals: int,
     n_generations: int,
     n_iterations: int,
+    crossover_decorator = None,
+    mutation_decorator = None,
 ) -> list[dict]:
     """ Run GA optimization for petri net discovery problem with various hyperparameters
 
@@ -44,6 +46,10 @@ def run_petrinas_ga(
         n_individuals (int): number of individuals in the population
         n_generations (int): number of generations until termination
         n_iterations (int): number of repetitions 
+        crossover_decorator (function, optional): optional decorator for crossover op. 
+            Defaults to None, indicating no decorator
+        mutation_decorator (function, optional): optional decorator for mutation op.
+            Defaults to None, indicating no decorator
 
     Returns:
         list[dict]: list of metadata and optimization outputs for each run
@@ -111,7 +117,11 @@ def run_petrinas_ga(
 
             # Register evolutionary operators
             toolbox.register(alias="mate", **crossover_op)
+            if crossover_decorator:
+                toolbox.decorate("mate", crossover_decorator)
             toolbox.register(alias="mutate", **mutation_op)
+            if mutation_decorator:
+                toolbox.decorate("mutate", mutation_decorator)
             toolbox.register(alias="select", **selection_op)
             toolbox.register(
                 alias="evaluate",

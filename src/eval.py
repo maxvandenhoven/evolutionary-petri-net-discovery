@@ -55,10 +55,17 @@ def evaluate_trace(individual_matrix: np.array, trace: list[int]) -> int:
             # Loop over the column corresponding to the current transition in the trace.
             # If a place has a connection to the transition, update the current place to 
             # that new place and stop looking. 
+            next_place_found = False
             for candidate_place, edge in enumerate(individual_matrix[:, transition]):
                 if edge == 1:
+                    next_place_found = True
                     place = candidate_place
                     break
+            
+            # If a transition does not lead to a new place, stop counting
+            if not next_place_found:
+                break
+
         else:
             break
 
